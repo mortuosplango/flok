@@ -36,3 +36,7 @@
 :root {
   --foreground: #fff;
 }
+
+.cm-activeLine, .cm-line {
+  background-color:rgba(1, 0, 0, 0.4) !important;
+}

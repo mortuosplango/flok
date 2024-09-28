@@ -1,4 +1,5 @@
 import { useQuery } from "@/hooks/use-query";
+import poetryExtension from "@/lib/poetry";
 import {
   langByTarget as langByTargetUntyped,
   panicCodes as panicCodesUntyped,
@@ -49,7 +50,7 @@ const baseTheme = EditorView.baseTheme({
     padding: 0,
   },
   "& .cm-activeLine": {
-    backgroundColor: "rgba(0, 0, 0, 0.7) !important",
+    backgroundColor: "rgba(1, 0, 0, 0.7) !important",
   },
   "& .ͼo": {
     color: "white",
@@ -174,6 +175,7 @@ export const Editor = React.forwardRef(
       readOnly ? EditorState.readOnly.of(true) : [],
       toggleWith("shift-ctrl-l", lineNumbers()), // toggle linenumbers on/off
       toggleWith("shift-ctrl-w", EditorView.lineWrapping), // toggle linewrapping on/off
+      ...poetryExtension,
     ];
 
     // If it's read-only, put a div in front of the editor so that the user
