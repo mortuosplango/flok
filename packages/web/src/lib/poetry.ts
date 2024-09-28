@@ -43,21 +43,25 @@ function poetryDeco(view: EditorView) {
           .replace(/8/g, " eight ")
           .replace(/9/g, " nine ")
           .replace(/0/g, " zero ")
+          .replace(/\*/g, " times ")
+          .replace(/\+/g, " plus ")
+          .replace(/\-/g, " minus ")
+          .replace(/\//g, " divided by ")
           .replace(/tanh/g, "tan h")
           .replace(/unipolar/g, "uni polar")
           .replace(/Osc/g, "Mosk")
-          .replace(/[{}()|]/g, " ")
+          .replace(/[{}()[\,\]\|\.\!]/g, " ")
           .replace(/\Win\W/g, " Bin ")
           .replace(/[A-Z][a-z]*/g, (x) => x + " ");
-        // const syllablesOld = [
-        //   ...simplifiedTextWithNumbers.matchAll(/[aeiou0-9]+/gi),
-        // ].length;
+        const syllablesOld = [
+          ...simplifiedTextWithNumbers.matchAll(/[aeiou0-9]+/gi),
+        ].length;
 
         const syllablesNo = syllable(simplifiedTextWithNumbers)
         const words = [...text.matchAll(/\W([a-zA-Z0-9]+)\W/g)].filter(
           (word) => !["ar", "ir", "kr"].includes(word[1])
         );
-        // console.log(simplifiedTextWithNumbers, syllablesNo, syllablesOld)
+        console.log(simplifiedTextWithNumbers, syllablesNo, syllablesOld)
         if (syllablesNo) {
           builder.add(
             line.from,
