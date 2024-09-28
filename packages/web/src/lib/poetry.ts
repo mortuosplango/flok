@@ -10,6 +10,7 @@ import {
   ViewUpdate,
 } from "@codemirror/view";
 import getRhymingPart from "rhyming-part";
+import { syllable } from "syllable";
 
 const arKrDec = new MatchDecorator({
   regexp: /\.[aki]r/g,
@@ -48,20 +49,23 @@ function poetryDeco(view: EditorView) {
           .replace(/[{}()|]/g, " ")
           .replace(/\Win\W/g, " Bin ")
           .replace(/[A-Z][a-z]*/g, (x) => x + " ");
-        const syllables = [
-          ...simplifiedTextWithNumbers.matchAll(/[aeiou0-9]+/gi),
-        ];
+        // const syllablesOld = [
+        //   ...simplifiedTextWithNumbers.matchAll(/[aeiou0-9]+/gi),
+        // ].length;
+
+        const syllablesNo = syllable(simplifiedTextWithNumbers)
         const words = [...text.matchAll(/\W([a-zA-Z0-9]+)\W/g)].filter(
           (word) => !["ar", "ir", "kr"].includes(word[1])
         );
-        if (syllables.length) {
+        // console.log(simplifiedTextWithNumbers, syllablesNo, syllablesOld)
+        if (syllablesNo) {
           builder.add(
             line.from,
             line.from + 7,
             Decoration.mark({
               attributes: {
                 style: `background-color: hsl(${
-                  syllables.length * 55
+                    syllablesNo * 55
                 } 100% 30%) !important;`,
               },
             })
