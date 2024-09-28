@@ -42,25 +42,31 @@ function poetryDeco(view: EditorView) {
           .replace(/8/g, " eight ")
           .replace(/9/g, " nine ")
           .replace(/0/g, " zero ")
+          .replace(/tanh/g, "tan h")
+          .replace(/unipolar/g, "uni polar")
           .replace(/Osc/g, "Mosk")
+          .replace(/[{}()|]/g, " ")
+          .replace(/\Win\W/g, " Bin ")
           .replace(/[A-Z][a-z]*/g, (x) => x + " ");
         const syllables = [
           ...simplifiedTextWithNumbers.matchAll(/[aeiou0-9]+/gi),
         ];
-        const words = [...text.matchAll(/\W([a-zA-Z0-9.]+)(\W|$)/g)].filter(
+        const words = [...text.matchAll(/\W([a-zA-Z0-9]+)\W/g)].filter(
           (word) => !["ar", "ir", "kr"].includes(word[1])
         );
-        builder.add(
-          line.from,
-          line.from + 7,
-          Decoration.mark({
-            attributes: {
-              style: `background-color: hsl(${
-                syllables.length * 55
-              } 100% 30%) !important;`,
-            },
-          })
-        );
+        if (syllables.length) {
+          builder.add(
+            line.from,
+            line.from + 7,
+            Decoration.mark({
+              attributes: {
+                style: `background-color: hsl(${
+                  syllables.length * 55
+                } 100% 30%) !important;`,
+              },
+            })
+          );
+        }
         builder.add(
           line.from + 7,
           line.from + from + 1,
@@ -69,8 +75,20 @@ function poetryDeco(view: EditorView) {
           })
         );
 
-        if (words.length) {
-          const lastWord = words[words.length - 1][1];
+        if (words.length && simplifiedTextWithNumbers) {
+          const lastWord = words[words.length - 1][1]
+            .replace(/one/g, "1")
+            .replace(/two/g, "2")
+            .replace(/three/g, "3")
+            .replace(/four/g, "4")
+            .replace(/five/g, "5")
+            .replace(/six/g, "6")
+            .replace(/seven/g, "7")
+            .replace(/eight/g, "8")
+            .replace(/nine/g, "9")
+            .replace(/zero/g, "0")
+            .replace(/ Bin /g, " in ")
+            .replace(/Mosk/g, "Osc");
           const rhyme = getRhymingPart(simplifiedTextWithNumbers) as string;
           if (rhyme) {
             if (!rhymes.includes(rhyme)) {
@@ -102,16 +120,14 @@ function poetryDeco(view: EditorView) {
               })
             );
           } else {
-            console.warn("how do I rhyme", lastWord);
+            console.warn(
+              "how do I rhyme",
+              lastWord,
+              "in",
+              simplifiedTextWithNumbers
+            );
           }
         }
-        builder.add(
-          line.from + to,
-          line.from + text.length,
-          Decoration.mark({
-            attributes: { style: `opacity: 0.5` },
-          })
-        );
       }
       pos = line.to + 1;
     }
@@ -134,8 +150,8 @@ const layerMarkerMaker = (
       other.coordinates?.filter((x, i) => x == [x1, y1, x2, y2][i]).length ===
         4,
     draw: () => {
-     const div = document.createElement('div')
-     div.className = 'hmhm-svg'
+      const div = document.createElement("div");
+      div.className = "hmhm-svg";
       const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       div.appendChild(svg);
       svg.setAttribute("width", "1500px");
@@ -147,9 +163,9 @@ const layerMarkerMaker = (
       line.setAttribute("x2", x2 + "px");
       line.setAttribute("y1", y1 + "px");
       line.setAttribute("y2", y2 + "px");
-      line.setAttribute("stroke", color)
-
-      line.setAttribute("stroke-width", '4px')
+      line.setAttribute("stroke", color);
+      line.setAttribute("stroke-linecap", "round");
+      line.setAttribute("stroke-width", "3px");
       return div;
     },
     coordinates: [x1, y1, x2, y2],
