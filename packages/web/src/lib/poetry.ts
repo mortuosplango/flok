@@ -53,15 +53,15 @@ function poetryDeco(view: EditorView) {
           .replace(/[{}()[\,\]\|\.\!]/g, " ")
           .replace(/\Win\W/g, " Bin ")
           .replace(/[A-Z][a-z]*/g, (x) => x + " ");
-        const syllablesOld = [
-          ...simplifiedTextWithNumbers.matchAll(/[aeiou0-9]+/gi),
-        ].length;
+        // const syllablesOld = [
+        //   ...simplifiedTextWithNumbers.matchAll(/[aeiou0-9]+/gi),
+        // ].length;
 
         const syllablesNo = syllable(simplifiedTextWithNumbers)
         const words = [...text.matchAll(/\W([a-zA-Z0-9]+)\W/g)].filter(
           (word) => !["ar", "ir", "kr"].includes(word[1])
         );
-        console.log(simplifiedTextWithNumbers, syllablesNo, syllablesOld)
+
         if (syllablesNo) {
           builder.add(
             line.from,
