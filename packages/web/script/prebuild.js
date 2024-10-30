@@ -13,7 +13,8 @@ import { resolve, dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const publicAssetsDir = resolve(__dirname, '../public/assets');
-const strudelAssetsDir = resolve(__dirname, '../../../node_modules/@strudel/core/dist/assets');
+const strudelAssetsDir = resolve(__dirname, '../../../node_modules/@strudel/core/dist/assets')
+const kabelsalatAssetsDir = resolve(__dirname, '../../../node_modules/@kabelsalat/web/dist/assets');
 
 if (!existsSync(publicAssetsDir)) {
   mkdirSync(publicAssetsDir, { recursive: true });
@@ -22,6 +23,13 @@ if (!existsSync(publicAssetsDir)) {
 const files = readdirSync(strudelAssetsDir).filter(file => file.startsWith('clockworker--'));
 files.forEach(file => {
   const src = resolve(strudelAssetsDir, file);
+  const dest = resolve(publicAssetsDir, file);
+  copyFileSync(src, dest);
+});
+
+const ksfiles = readdirSync(kabelsalatAssetsDir);
+ksfiles.forEach(file => {
+  const src = resolve(kabelsalatAssetsDir, file);
   const dest = resolve(publicAssetsDir, file);
   copyFileSync(src, dest);
 });

@@ -2,7 +2,7 @@ import type { EvalMessage } from "@flok-editor/session";
 import {
   SalatRepl
 } from "@kabelsalat/web";
-import { updateDocumentsContext } from "./utils";
+// import { updateDocumentsContext } from "./utils";
 
 export type ErrorHandler = (error: string) => void;
 
@@ -46,7 +46,7 @@ export class KabelsalatWrapper {
   async initialize() {
     if (this.initialized) return;
 
-    let lastFrame: number | null = null;
+    // let lastFrame: number | null = null;
     // this.framer = new Framer(
     //   () => {
     //     const phase = this._repl.scheduler.now();
@@ -102,7 +102,7 @@ export class KabelsalatWrapper {
   async tryEval(msg: EvalMessage) {
     if (!this.initialized) await this.initialize();
     try {
-      const { body: code, docId } = msg;
+      const { body: code } = msg;
       // little hack that injects the docId at the end of the code to make it available in afterEval
       const node = this._repl.evaluate(code);
       this._repl.play(node)
