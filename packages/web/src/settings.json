@@ -34,7 +34,7 @@
     "mercury": "silence",
     "mercury-web": "silence",
     "hydra": "hush()",
-    "kabelsalat": "_repl.stop()",
+    "kabelsalat": "stop()",
     "strudel": "silence",
     "sardine": "panic()"
   },
