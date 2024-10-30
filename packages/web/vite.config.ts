@@ -29,6 +29,8 @@ export default defineConfig({
         manualChunks: (id) => {
           if (id.includes("@strudel/")) {
             return "strudel";
+          } else if (id.includes("@kabelsalat/")) {
+            return "kabelsalat";
           } else if (id.includes("mercury-engine")) {
             return "mercury";
           } else if (id.includes("hydra-synth")) {

@@ -46,6 +46,7 @@ declare global {
   interface Window {
     documentsContext: { [docId: string]: any };
     hydra: any;
+    kabelsalat: any;
     mercury: any;
     strudel: any;
   }
