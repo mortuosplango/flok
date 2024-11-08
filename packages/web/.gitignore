@@ -25,7 +25,3 @@ dist-ssr
 
 # Strudel
 public/assets/clockwork*.js
-
-# Kabelsalat
-public/assets/recorder*.js
-public/assets/worklet*.js

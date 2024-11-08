@@ -22,10 +22,7 @@
   },
   "dependencies": {
     "@flok-editor/server-middleware": "^1.0.1",
-    "@kabelsalat/core": "^0.2.0",
-    "@kabelsalat/lib": "^0.2.0",
-    "@kabelsalat/transpiler": "^0.2.0",
-    "@kabelsalat/web": "^0.2.0",
+    "@kabelsalat/web": "^0.2.1",
     "@strudel/draw": "^1.1.0",
     "commander": "^10.0.0",
     "compression": "^1.7.4",

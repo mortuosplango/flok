@@ -80,6 +80,7 @@ export class KabelsalatWrapper {
     // );
 
     this._repl = new SalatRepl({
+      // localScope:true
         // base: "https://unpkg.com/@kabelsalat/web@0.0.7/dist/",
       });
 
@@ -103,9 +104,7 @@ export class KabelsalatWrapper {
     if (!this.initialized) await this.initialize();
     try {
       const { body: code } = msg;
-      // little hack that injects the docId at the end of the code to make it available in afterEval
-      const node = this._repl.evaluate(code);
-      this._repl.play(node)
+      this._repl.run(code);
     //   if (pattern) {
     //     this._docPatterns[docId] = pattern.docId(docId); // docId is needed for highlighting
     //     const allPatterns = stack(...Object.values(this._docPatterns));

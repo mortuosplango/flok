@@ -26,10 +26,3 @@ files.forEach(file => {
   const dest = resolve(publicAssetsDir, file);
   copyFileSync(src, dest);
 });
-
-const ksfiles = readdirSync(kabelsalatAssetsDir);
-ksfiles.forEach(file => {
-  const src = resolve(kabelsalatAssetsDir, file);
-  const dest = resolve(publicAssetsDir, file);
-  copyFileSync(src, dest);
-});
