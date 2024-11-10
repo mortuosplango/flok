@@ -1,11 +1,7 @@
 import type { EvalMessage } from "@flok-editor/session";
-import {
-  SalatRepl
-} from "@kabelsalat/web";
-// import { updateDocumentsContext } from "./utils";
+import { SalatRepl } from "@kabelsalat/web";
 
 export type ErrorHandler = (error: string) => void;
-
 
 export class KabelsalatWrapper {
   initialized: boolean = false;
@@ -30,86 +26,30 @@ export class KabelsalatWrapper {
     this._audioInitialized = false;
   }
 
-  async importModules() {
-    // import desired modules and add them to the eval scope
-    // await evalScope(
-    //   import("@kabelsalat/web"),
-    // );
-  }
-
-  async initAudio() {
-    if (this._audioInitialized) return;
-    // await initAudio();
-    this._audioInitialized = true;
-  }
-
   async initialize() {
     if (this.initialized) return;
 
-    // let lastFrame: number | null = null;
-    // this.framer = new Framer(
-    //   () => {
-    //     const phase = this._repl.scheduler.now();
-    //     if (lastFrame === null) {
-    //       lastFrame = phase;
-    //       return;
-    //     }
-    //     if (!this._repl.scheduler.pattern) {
-    //       return;
-    //     }
-    //     // queries the stack of strudel patterns for the current time
-    //     const allHaps = this._repl.scheduler.pattern.queryArc(
-    //       Math.max(lastFrame!, phase - 1 / 10), // make sure query is not larger than 1/10 s
-    //       phase
-    //     );
-    //     // filter out haps that are not active right now
-    //     const currentFrame = allHaps.filter(
-    //       (hap: any) => phase >= hap.whole.begin && phase <= hap.endClipped
-    //     );
-    //     // iterate over each strudel doc
-    //     Object.keys(this._docPatterns).forEach((docId: any) => {
-    //       // filter out haps belonging to this document (docId is set in tryEval)
-    //       const haps = currentFrame.filter((h: any) => h.value.docId === docId);
-    //       // update codemirror view to highlight this frame's haps
-    //       updateDocumentsContext(docId, { haps, phase });
-    //     });
-    //   },
-    //   (err: any) => {
-    //     console.error("[strudel] draw error", err);
-    //   }
-    // );
-
     this._repl = new SalatRepl({
-      // localScope:true
-        // base: "https://unpkg.com/@kabelsalat/web@0.0.7/dist/",
-      });
-
-    // this.framer.start();
-
-    // For some reason, we need to make a no-op evaluation ("silence") to make
-    // sure everything is loaded correctly.
-    // const pattern = await this._repl.evaluate(`silence//`);
-    // await this._repl.run(pattern);
+      // localScope: true,
+    });
 
     this.initialized = true;
   }
 
-  async dispose() {
-    if (this.framer) {
-      this.framer.stop();
-    }
-  }
-
   async tryEval(msg: EvalMessage) {
     if (!this.initialized) await this.initialize();
+
     try {
-      const { body: code } = msg;
-      this._repl.run(code);
-    //   if (pattern) {
-    //     this._docPatterns[docId] = pattern.docId(docId); // docId is needed for highlighting
-    //     const allPatterns = stack(...Object.values(this._docPatterns));
-    //     await this._repl.scheduler.setPattern(allPatterns, true);
-    //   }
+      const { body: code, docId } = msg;
+      const node = await this._repl.evaluate(code);
+      if (node) {
+        this._docPatterns[docId] = code;
+        // concatenate all kabelsalat panes
+        // bit of a problem because they all restart
+        const allPatterns = Object.values(this._docPatterns).join("\n\n");
+        await this._repl.run(allPatterns);
+      }
+      // this._repl.run(code)
     } catch (err) {
       console.error(err);
       this._onError(`${err}`);

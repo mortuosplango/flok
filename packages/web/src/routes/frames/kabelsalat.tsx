@@ -18,28 +18,11 @@ export function Component() {
         },
       });
 
-      await instance.importModules();
       setInstance(instance);
 
       window.parent.kabelsalat = window;
     })();
   }, []);
-
-  useEffect(() => {
-    if (!instance) return;
-
-    const handleWindowMessage = async (event: MessageEvent) => {
-      if (event.data.type === "user-interaction") {
-        await instance.initAudio();
-      }
-    };
-
-    window.addEventListener("message", handleWindowMessage);
-
-    return () => {
-      window.removeEventListener("message", handleWindowMessage);
-    };
-  }, [instance]);
 
   useEvalHandler(
     useCallback(
