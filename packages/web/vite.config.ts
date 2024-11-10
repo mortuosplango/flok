@@ -1,4 +1,5 @@
 import react from "@vitejs/plugin-react";
+import { vitePluginPreBundleNewUrl } from "@hiogawa/vite-plugin-pre-bundle-new-url";
 import path from "path";
 import Unfonts from "unplugin-fonts/vite";
 import { defineConfig } from "vite";
@@ -22,6 +23,8 @@ export default defineConfig({
         families: ["Inter", "Inconsolata"],
       },
     }),
+    // needed for kabelsalat until https://github.com/vitejs/vite/pull/17837 is in
+    vitePluginPreBundleNewUrl()
   ],
   build: {
     rollupOptions: {

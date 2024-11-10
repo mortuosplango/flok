@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@flok-editor/server-middleware": "^1.0.1",
+    "@hiogawa/vite-plugin-pre-bundle-new-url": "^0.0.0-pre.7",
     "@kabelsalat/web": "^0.2.1",
     "@strudel/draw": "^1.1.0",
     "commander": "^10.0.0",
