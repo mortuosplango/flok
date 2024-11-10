@@ -14,7 +14,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const publicAssetsDir = resolve(__dirname, '../public/assets');
 const strudelAssetsDir = resolve(__dirname, '../../../node_modules/@strudel/core/dist/assets')
-const kabelsalatAssetsDir = resolve(__dirname, '../../../node_modules/@kabelsalat/web/dist/assets');
 
 if (!existsSync(publicAssetsDir)) {
   mkdirSync(publicAssetsDir, { recursive: true });
