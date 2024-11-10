@@ -30,7 +30,7 @@ export class KabelsalatWrapper {
     if (this.initialized) return;
 
     this._repl = new SalatRepl({
-      // localScope: true,
+      localScope: true,
     });
 
     this.initialized = true;
