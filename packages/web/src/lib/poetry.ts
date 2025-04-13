@@ -69,8 +69,8 @@ function poetryDeco(view: EditorView) {
             Decoration.mark({
               attributes: {
                 style: `background-color: hsl(${
-                    syllablesNo * 55
-                } 100% 30%) !important;`,
+                    syllablesNo * 2
+                } 90% 90%) !important;`,
               },
             })
           );
@@ -122,8 +122,8 @@ function poetryDeco(view: EditorView) {
               Decoration.mark({
                 attributes: {
                   style: `background-color: hsl(${Math.floor(
-                    rhymes.indexOf(rhyme) * 60
-                  )} 50% 30%) !important;`,
+                    rhymes.indexOf(rhyme) * 200
+                  )} 90% 90%) !important;`,
                 },
               })
             );
@@ -164,16 +164,44 @@ const layerMarkerMaker = (
       div.appendChild(svg);
       svg.setAttribute("width", "1500px");
       svg.setAttribute("height", "1500px");
-      const line = svg.appendChild(
-        document.createElementNS("http://www.w3.org/2000/svg", "line")
-      );
-      line.setAttribute("x1", x1 + "px");
-      line.setAttribute("x2", x2 + "px");
-      line.setAttribute("y1", y1 + "px");
-      line.setAttribute("y2", y2 + "px");
-      line.setAttribute("stroke", color);
-      line.setAttribute("stroke-linecap", "round");
-      line.setAttribute("stroke-width", "3px");
+    
+      // Create filter definitions
+      const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+      svg.appendChild(defs);
+      
+      const filter = document.createElementNS("http://www.w3.org/2000/svg", "filter");
+      filter.setAttribute("id", "drop-shadow");
+      defs.appendChild(filter);
+    
+      const feDropShadow = document.createElementNS("http://www.w3.org/2000/svg", "feDropShadow");
+      feDropShadow.setAttribute("dx", "2");
+      feDropShadow.setAttribute("dy", "2");
+      feDropShadow.setAttribute("stdDeviation", "2");
+      feDropShadow.setAttribute("flood-color", "black");
+      feDropShadow.setAttribute("flood-opacity", "0.5");
+      filter.appendChild(feDropShadow);
+    
+      // Create cubic Bézier path
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      
+      // Calculate control points (values change curvature)
+      const cx1 = x1 + 0;  // First control point X
+      const cy1 = y1 + 0;   // First control point Y
+      const cx2 = x2 - 0;  // Second control point X
+      const cy2 = y2 - 0;   // Second control point Y
+    
+      // Cubic Bézier path command (C cx1 cy1, cx2 cy2, x2 y2)
+      const pathData = `M ${x1},${y1} C ${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`;
+      
+      path.setAttribute("d", pathData);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", color);
+      path.setAttribute("stroke-linecap", "round");
+      path.setAttribute("stroke-width", "3px");
+      path.setAttribute("stroke-dasharray", "1,5");
+      path.setAttribute("filter", "url(#drop-shadow)");
+      
+      svg.appendChild(path);
       return div;
     },
     coordinates: [x1, y1, x2, y2],
@@ -216,7 +244,7 @@ const backlayer = layer({
             rhyme.y,
             rw.x,
             rw.y,
-            `hsl(${Math.floor(i * 60)} 80% 50%)`
+            `hsl(${Math.floor(i * 2) + 40} 90% 50%)`
           )
         );
       }

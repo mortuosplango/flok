@@ -33,24 +33,27 @@ const panicCodes = panicCodesUntyped as { [target: string]: string };
 
 const baseTheme = EditorView.baseTheme({
   "&.cm-editor": {
-    background: "transparent",
+    background: "white",
     fontFamily: `Inconsolata`,
     fontSize: "16px",
-    color: "white",
+    color: "black",
     fontWeight: 600,
   },
   "& .cm-scroller": {
-    fontFamily: `Inconsolata`,
-    paddingLeft: "2px !important",
+    fontFamily: `Garamond`,
+    fontWeight: "lighter",
+    paddingLeft: "50px !important",
+    paddingTop: "20px !important",
     minHeight: "100vh",
   },
   "& .cm-line": {
-    background: "rgba(0, 0, 0, 0.7)",
+    background: "rgba(255, 255, 255, 1)",
     maxWidth: "fit-content",
     padding: 0,
   },
   "& .cm-activeLine": {
-    backgroundColor: "rgba(1, 0, 0, 0.7) !important",
+    backgroundColor: "rgba(255, 255, 255, 1) !important",
+    opacity: 1,
   },
   "& .ͼo": {
     color: "white",
@@ -59,7 +62,7 @@ const baseTheme = EditorView.baseTheme({
     outline: "none",
   },
   ".cm-selectionBackground": {
-    backgroundColor: "rgba(255, 0, 255, 0.5) !important",
+    backgroundColor: "rgba(255, 255, 255, 1) !important",
     opacity: 0.5,
   },
   ".cm-ySelectionInfo": {
@@ -164,13 +167,13 @@ export const Editor = React.forwardRef(
 
     const readOnly = !!query.get("readOnly");
 
-    const language: string = langByTarget[document.target] || defaultLanguage;
-    const languageExtension = langExtensionsByLanguage[language] || javascript;
+    // const language: string = langByTarget[document.target] || defaultLanguage;
+    // const languageExtension = langExtensionsByLanguage[language] || javascript;
 
     const extensions = [
       baseTheme,
       flokSetup(document, { readOnly }),
-      languageExtension(),
+      //languageExtension(),
       highlightExtension,
       readOnly ? EditorState.readOnly.of(true) : [],
       toggleWith("shift-ctrl-l", lineNumbers()), // toggle linenumbers on/off

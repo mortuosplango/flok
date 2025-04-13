@@ -495,7 +495,7 @@ export function Component() {
     setMessagesPanelExpanded(false);
   }, []);
 
-  const bgOpacity = query.get("bgOpacity") || "1.0";
+  const bgOpacity = "0.0";
 
   const activeWebTargets = useMemo(
     () =>

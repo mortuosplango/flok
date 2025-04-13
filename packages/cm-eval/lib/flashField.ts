@@ -8,7 +8,7 @@ let timeoutId: any;
 export const setFlash = StateEffect.define<FlashRange | null>();
 
 const defaultStyle = {
-  "background-color": "#FFCA2880",
+  "background-color": "#FFFFFF",
 };
 
 const styleObjectToString = (styleObj: object): string =>
