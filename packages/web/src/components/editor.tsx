@@ -1,17 +1,13 @@
 import { useQuery } from "@/hooks/use-query";
 import poetryExtension from "@/lib/poetry";
 import {
-  langByTarget as langByTargetUntyped,
   panicCodes as panicCodesUntyped,
   targetsWithDocumentEvalMode,
   webTargets,
 } from "@/settings.json";
-import { javascript } from "@codemirror/lang-javascript";
-import { python } from "@codemirror/lang-python";
 import { Compartment, EditorState, Extension, Prec } from "@codemirror/state";
 import { EditorView, keymap, lineNumbers } from "@codemirror/view";
 import { evalKeymap, flashField, remoteEvalFlash } from "@flok-editor/cm-eval";
-import { tidal } from "@flok-editor/lang-tidal";
 import type { Document } from "@flok-editor/session";
 import { highlightExtension } from "@strudel/codemirror";
 import CodeMirror, {
@@ -22,13 +18,6 @@ import React, { useEffect, useState } from "react";
 import { yCollab } from "y-codemirror.next";
 import { UndoManager } from "yjs";
 
-const defaultLanguage = "javascript";
-const langByTarget = langByTargetUntyped as { [lang: string]: string };
-const langExtensionsByLanguage: { [lang: string]: any } = {
-  javascript: javascript,
-  python: python,
-  tidal: tidal,
-};
 const panicCodes = panicCodesUntyped as { [target: string]: string };
 
 const baseTheme = EditorView.baseTheme({
@@ -52,18 +41,25 @@ const baseTheme = EditorView.baseTheme({
     padding: 0,
   },
   "& .cm-activeLine": {
-    backgroundColor: "rgba(255, 255, 255, 1) !important",
-    opacity: 1,
+    // backgroundColor: "rgba(0, 0, 0, 1) !important",
+    // opacity: 1,
+    // color: "grey",
   },
   "& .ͼo": {
-    color: "white",
+    color: "blue",
   },
   "&.cm-focused": {
     outline: "none",
   },
   ".cm-selectionBackground": {
-    backgroundColor: "rgba(255, 255, 255, 1) !important",
+    // backgroundColor: "rgba(61, 147, 204, 0) !important",
+    // opacity: 1,
+    // outline: "dotted",
+    // outline: "groove",
+    // outlineColor: "blue",
+    backgroundColor: "rgba(222, 222, 222, 0.64) !important",
     opacity: 0.5,
+    // color: "grey",
   },
   ".cm-ySelectionInfo": {
     opacity: "1",
